@@ -7,10 +7,13 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { setUpLocationSync } from '@angular/router/upgrade';
 
 import 'rxjs/add/operator/map';
+import { select, NgRedux } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 
 import { angularJsApp } from './angularjs.module';
 import { ng1Matcher } from './utils';
+import { VanillaAppState } from './redux';
+import { ReduxModule } from './angular.redux';
 
 @Component({
   selector: 'app-root',
@@ -33,12 +36,32 @@ export class AppComponent {
       <a routerLink="/a/ng1">ANGULARJS A</a>
       <a routerLink="/b/ng1">ANGULARJS B</a>
     </div>
+    <div>
+      <h3>{{ counter$ | async }}</h3>
+      <button (click)="increase()">Increase</button>
+      <button (click)="decrease()">Decrease</button>
+    </div>
   `
 })
 export class RoutableAngularComponent {
+  @select() readonly counter$: Observable<number>;
   url: Observable<string> = this.route.url.map(p => p.map(s => s.path).join('/'));
+  counter: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+    private ngRedux: NgRedux<VanillaAppState>) {
+    // this.counter$.subscribe((data: any) => {
+    //   this.counter = data;
+    // });
+  }
+
+  increase() {
+    this.ngRedux.dispatch({ type: 'INCREASE_COUNTER' });
+  }
+
+  decrease() {
+    this.ngRedux.dispatch({ type: 'DECREASE_COUNTER' });
+  }
 }
 
 @Component({
@@ -57,6 +80,7 @@ export class EmptyComponent {
   imports: [
     BrowserModule,
     UpgradeModule,
+    ReduxModule,
     RouterModule.forRoot([
       { path: '', component: RoutableAngularComponent },
       { path: 'a/ng2', component: RoutableAngularComponent },

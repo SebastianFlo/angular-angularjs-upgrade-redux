@@ -1,28 +1,32 @@
 import { createLogger } from 'redux-logger';
-
-const initialState = {
-    counter: 0
-};
+import { store } from './redux';
+// const initialState = {
+//     counter: 0
+// };
 
 
 // REDUCER
-const AngularJsReducer = function (state = initialState, action) {
-    switch (action.type) {
-        case 'INCREASE_COUNTER': {
-            return Object.assign({}, state, {
-                counter: state.counter + 1
-            });
-        }
-        case 'DECREASE_COUNTER': {
-            return Object.assign({}, state, {
-                counter: state.counter - 1
-            });
-        }
+// const AngularJsReducer = function (state = initialState, action) {
+//     switch (action.type) {
+//         case 'INCREASE_COUNTER': {
+//             return Object.assign({}, state, {
+//                 counter: state.counter + 1
+//             });
+//         }
+//         case 'DECREASE_COUNTER': {
+//             return Object.assign({}, state, {
+//                 counter: state.counter - 1
+//             });
+//         }
 
-        default:
-            return state;
-    }
-};
+//         default:
+//             return state;
+//     }
+// };
+
+function storeProviderEnhancer() {
+  return () => store;
+}
 
 // ACTIONS
 function increaseCounter() {
@@ -40,31 +44,24 @@ function decreaseCounter() {
 export const AngularJsActions = {
     increaseCounter,
     decreaseCounter
-}
+};
 
 export function reduxConfig($ngReduxProvider) {
-    $ngReduxProvider.createStoreWith(AngularJsReducer, [createLogger()], null, initialState);
-    console.log('Redux is configured');
+    // $ngReduxProvider.createStoreWith(AngularJsReducer, [createLogger()], null, initialState); // using ngRedux as a base
+    $ngReduxProvider.createStoreWith(state => state, [], [storeProviderEnhancer]); // using native redux as a base
 }
 
 export function runNgRedux($ngRedux) {
-    console.log('Putting redux on window');
     window['angularJsNgRedux'] = $ngRedux;
 }
 
 export class ReduxService {
     constructor($ngRedux) {
-        console.log('ngRedux Service');
         return $ngRedux;
     }
 }
 
-
-// TODO: Find this thing I found on GitHub
-
 /*
-import myStore from '../shared/store'; // initial store setup using plain Redux
-
 function storeProviderEnhancer() {
   return () => myStore;
 }
