@@ -9,7 +9,7 @@ import logger from 'redux-logger';
 // import { AppState, INITIAL_STATE } from './store';
 // import { ReduxUpgradeService } from './reduxUpgrade.service';
 
-import { store, VanillaAppState } from './redux';
+import { store, VanillaAppState } from '../redux';
 
 @NgModule({
     imports: [

@@ -1,5 +1,5 @@
 import { createLogger } from 'redux-logger';
-import { store } from './redux';
+import { store } from '../redux';
 // const initialState = {
 //     counter: 0
 // };
