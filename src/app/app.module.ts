@@ -21,6 +21,7 @@ import { ReduxModule } from './angular/angular.redux';
 import { AppComponent } from './angular/app.component';
 import { RoutableAngularComponent } from './angular/routable.component';
 import { EmptyComponent } from './angular/empty.component';
+import { ActionsService } from './angular/actions.service';
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { EmptyComponent } from './angular/empty.component';
       { matcher: ng1Matcher, component: EmptyComponent }
     ])
   ],
-  providers: [],
+  providers: [ActionsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,8 +1,8 @@
-import { select, NgRedux } from '@angular-redux/store';
+import { select } from '@angular-redux/store';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
-import { VanillaAppState } from '../redux';
 import { Component } from '@angular/core';
+import { ActionsService } from './actions.service';
 
 @Component({
   selector: 'app-angular-cmp',
@@ -26,17 +26,18 @@ export class RoutableAngularComponent {
   counter: number;
 
   constructor(private route: ActivatedRoute,
-    private ngRedux: NgRedux<VanillaAppState>) {
+    private actions: ActionsService) {
     // this.counter$.subscribe((data: any) => {
     //   this.counter = data;
     // });
   }
 
   increase() {
-    this.ngRedux.dispatch({ type: 'INCREASE_COUNTER' });
+    // TODO: A general Increase actions service
+    this.actions.increase();
   }
 
   decrease() {
-    this.ngRedux.dispatch({ type: 'DECREASE_COUNTER' });
+    this.actions.decrease();
   }
 }
