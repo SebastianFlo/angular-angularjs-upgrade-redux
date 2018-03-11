@@ -5,10 +5,6 @@ import { NgReduxModule } from '@angular-redux/store';
 import { NgRedux } from '@angular-redux/store';
 import logger from 'redux-logger';
 
-// import { RootReducer } from './reducers';
-// import { AppState, INITIAL_STATE } from './store';
-// import { ReduxUpgradeService } from './reduxUpgrade.service';
-
 import { store, VanillaAppState } from './redux';
 
 @NgModule({

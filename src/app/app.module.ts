@@ -49,11 +49,7 @@ export class RoutableAngularComponent {
   counter: number;
 
   constructor(private route: ActivatedRoute,
-    private ngRedux: NgRedux<VanillaAppState>) {
-    // this.counter$.subscribe((data: any) => {
-    //   this.counter = data;
-    // });
-  }
+    private ngRedux: NgRedux<VanillaAppState>) {}
 
   increase() {
     this.ngRedux.dispatch({ type: 'INCREASE_COUNTER' });
@@ -93,7 +89,6 @@ export class EmptyComponent {
 })
 export class AppModule {
   constructor(upgrade: UpgradeModule) {
-    // ignore this bit. Since you aren't using UpgradeModule, this is irrelevant.
     setTimeout(() => {
       setAngularLib(angular);
       upgrade.bootstrap(document.body, [angularJsApp.name]);
