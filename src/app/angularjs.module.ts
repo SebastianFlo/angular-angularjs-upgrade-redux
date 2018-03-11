@@ -1,8 +1,9 @@
 import * as angular from 'angular';
 import ngRedux from 'ng-redux';
 import 'angular-route';
+import Core from '../core';
 
-import { reduxConfig, runNgRedux, ReduxService, AngularJsActions } from './angularjs.redux';
+import { reduxConfig } from './angularjs.redux';
 
 export const angularJsApp = angular.module('angularJsApp', ['ngRoute', ngRedux]);
 
@@ -20,30 +21,21 @@ angularJsApp.config(($locationProvider, $routeProvider) => {
   $routeProvider.otherwise({ template: '' });
 });
 
-angularJsApp
-  .run(runNgRedux);
-
-angularJsApp
-  .service('ReduxService', ReduxService);
-
-
 angularJsApp.component('angularJsA', {
   controller: class AngularJsAController {
     counter: any;
     redux: any = {};
-    increaseCounter;
-    decreaseCounter;
     constructor(public $ngRedux) {
-      $ngRedux.connect(this.mapStateToThis, { ...AngularJsActions })(this.redux);
-      console.log('Initial State is ', $ngRedux.getState());
+      const actions = { ...Core.counter.actions };
+      const unsubscribe = $ngRedux.connect(this.mapStateToThis, actions)(this.redux);
       $ngRedux.subscribe(() => {
-        console.log('state is ', $ngRedux.getState());
+        console.log('state changed');
       });
     }
 
     mapStateToThis(state) {
       return {
-        counter: state.counter
+        counter: state.counterReducer.counter;
       };
     }
 
